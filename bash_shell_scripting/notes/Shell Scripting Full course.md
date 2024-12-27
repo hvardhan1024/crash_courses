@@ -689,12 +689,251 @@ You must have to be indian to get a DL
 
 ## While loop 
 
+```bash
+                                                                            ─╯
+❯ cat whileloop.sh
+#!/bin/bash
+#Purpose : While loop table
+#Version:1.0
+#Created Date: Fri Dec 27 09:15:20 PM IST 2024
+#Modified Date:
+#Author: Harsha
+# Start #
 
+echo -e "Please enter one value : \c"
+read -r c
+i=1
+while [ $i -le 10 ]
+do 
+b=`expr $c \* $i`
+echo "$c * $i = $b"
+i=`expr $i + 1`
+done
+# END #
+❯ ./whileloop.sh
+Please enter one value : 4
+4 * 1 = 4
+4 * 2 = 8
+4 * 3 = 12
+4 * 4 = 16
+4 * 5 = 20
+4 * 6 = 24
+4 * 7 = 28
+4 * 8 = 32
+4 * 9 = 36
+4 * 10 = 40
+
+```
 ## For loop 
+```bash
+❯ cat hostname
+google.com
+amazon.com
+duckduckgo.com
+flipkart.com
+friv.com
 
 
+
+
+❯ ./forloop.sh
+PING google.com (2404:6800:4007:819::200e) 56 data bytes
+64 bytes from maa05s18-in-x0e.1e100.net (2404:6800:4007:819::200e): icmp_seq=1 ttl=115 time=7.28 ms
+
+--- google.com ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 7.275/7.275/7.275/0.000 ms
+google.com Host is up
+PING amazon.com (205.251.242.103) 56(84) bytes of data.
+64 bytes from s3-console-us-standard.console.aws.amazon.com (205.251.242.103): icmp_seq=1 ttl=237 time=239 ms
+
+--- amazon.com ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 239.485/239.485/239.485/0.000 ms
+amazon.com Host is up
+PING duckduckgo.com (20.204.244.192) 56(84) bytes of data.
+64 bytes from 20.204.244.192: icmp_seq=1 ttl=113 time=30.7 ms
+
+--- duckduckgo.com ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 30.733/30.733/30.733/0.000 ms
+duckduckgo.com Host is up
+PING flipkart.com (103.243.32.90) 56(84) bytes of data.
+64 bytes from 103.243.32.90: icmp_seq=1 ttl=54 time=31.5 ms
+
+--- flipkart.com ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 31.527/31.527/31.527/0.000 ms
+flipkart.com Host is up
+PING friv.com (207.244.69.244) 56(84) bytes of data.
+64 bytes from 207.244.69.244: icmp_seq=1 ttl=51 time=239 ms
+
+--- friv.com ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 238.884/238.884/238.884/0.000 ms
+friv.com Host is up
+❯ cat forloop.sh
+#!/bin/bash
+#Purpose : For loop table
+#Version:1.0
+#Created Date: Fri Dec 27 09:20:21 PM IST 2024
+#Modified Date:
+#Author: Harsha
+# Start #
+for i in `cat hostname`
+do 
+ping -c 1 $i
+valid=`echo $?`
+if [ $valid -gt 1 ]; then 
+echo $i "Host is not reachable"
+else
+echo "$i Host is up"
+fi
+done
+# END #
+❯ ./forloop.sh
+PING google.com (2404:6800:4007:819::200e) 56 data bytes
+64 bytes from maa05s18-in-x0e.1e100.net (2404:6800:4007:819::200e): icmp_seq=1 ttl=115 time=43.1 ms
+
+--- google.com ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 43.102/43.102/43.102/0.000 ms
+google.com Host is up
+PING amazon.com (205.251.242.103) 56(84) bytes of data.
+64 bytes from s3-console-us-standard.console.aws.amazon.com (205.251.242.103): icmp_seq=1 ttl=237 time=238 ms
+
+--- amazon.com ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 238.159/238.159/238.159/0.000 ms
+amazon.com Host is up
+PING duckduckgo.com (20.204.244.192) 56(84) bytes of data.
+64 bytes from 20.204.244.192: icmp_seq=1 ttl=113 time=31.5 ms
+
+
+```
+
+
+```bash
+❯ cat forloop2.sh
+#!/bin/bash
+#Purpose : Second for loop
+#Version:1.0
+#Created Date: Fri Dec 27 09:28:38 PM IST 2024
+#Modified Date:
+#Author: Harsha
+# Start #
+for i in 1 2 3 4 5 
+do 
+echo $i
+done
+# END #
+❯ ./forloop2.sh
+1
+2
+3
+4
+5
+
+```
 ## Case statement
+
+```bash
+❯ cat casestatement.sh
+#!/bin/bash
+#Purpose : Example for case statement
+#Version:1.0
+#Created Date: Fri Dec 27 09:30:48 PM IST 2024
+#Modified Date:
+#Author: Harsha
+# Start #
+
+echo -c "Enter a number: \c"
+read -r a
+echo -c "Enter b number: \c"
+read -r b
+
+echo "1. Sum"
+echo "2. Sub"
+echo "3. Mul"
+echo "4. Div"
+echo "5. Mod"
+
+echo -c "Enter your choice here: \c"
+read -r ch
+case $ch in 
+1) echo "Sum of $a and $b = `expr $a + $b`";;
+2) echo "Sub of $a and $b = `expr $a - $b`";;
+3) echo "Mul of $a and $b = `expr $a \* $b`";;
+4) echo "Div of $a and $b = `expr $a / $b`";;
+5) echo "Mod of $a and $b = `expr $a % $b`";;
+*) echo "Invalid option !"
+esac
+# END #
+❯ ./casestatement.sh
+-c Enter a number: \c
+5
+-c Enter b number: \c
+6
+1. Sum
+2. Sub
+3. Mul
+4. Div
+5. Mod
+-c Enter your choice here: \c
+3
+Mul of 5 and 6 = 30
+
+```
 
 
 ## Continue Statement
 
+What is a continue statement in simple words
+
+```bash
+cat continuestatement.sh
+#!/bin/bash
+#Purpose : While loop continue statement
+#Version:1.0
+#Created Date: Fri Dec 27 09:36:39 PM IST 2024
+#Modified Date:
+#Author: Harsha
+# Start #
+opt=y
+while [ $opt = y  -o $opt = Y ]
+    do 
+    echo -e "Please enter the number : \c"
+    read -r num
+    if [ $num -le 50 ]; then
+        sq=`expr $num \* $num`
+        echo "Square of provided number $num: $sq"
+    else 
+        echo "Number not in the given Range"
+    fi
+echo -e "Do you want to continue [y/n]: \c"
+read -r wish
+if [ $wish = y -o $wish = Y ]; then
+    continue
+else 
+    echo "Thank you for Exiting...."
+    exit 
+fi
+done
+# END #
+❯ ./continuestatement.sh
+Please enter the number : 4
+Square of provided number 4: 16
+Do you want to continue [y/n]: y
+Please enter the number : 2
+Square of provided number 2: 4
+Do you want to continue [y/n]: n
+Thank you for Exiting....
+
+
+```
+
+
+## Set command 
+
+why is set used 
+set feature is used to ....
