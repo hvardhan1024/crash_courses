@@ -936,4 +936,445 @@ Thank you for Exiting....
 ## Set command 
 
 why is set used 
-set feature is used to ....
+set feature is used to set the values as the positional parameters
+```bash
+❯ cat setcommand.sh
+#!/bin/bash
+#Purpose : Set assigns its arguments to the positional parameters
+#Version:1.0
+#Created Date: Sat Dec 28 05:13:14 AM IST 2024
+#Modified Date:
+#Author: Harsha
+# Start #
+set `date`
+echo "Today is $1"
+echo "Month is $2"
+echo "Date is $3"
+echo "Time H:M:S is $4"
+echo "Timezone is $5"
+echo "Year is $6"
+
+# END #
+❯ ./setcommand.sh
+Today is Sat
+Month is Dec
+Date is 28
+Time H:M:S is 05:15:17
+Timezone is AM
+Year is IST
+
+```
+
+
+
+## Shift Positional Parameters
+transfers content to its immediate lower numbered .....
+
+```bash
+
+❯ cat shiftparameters.sh
+#!/bin/bash
+#Purpose : Shifting positional parameters automatically
+#Version:1.0
+#Created Date: Sat Dec 28 05:18:53 AM IST 2024
+#Modified Date:
+#Author: Harsha
+# Start #
+set `date`
+echo "Count $#"
+echo "$1 $2 $3 $4 $5"
+shift
+echo "$1 $2 $3 $4 $5"
+shift
+echo "$1 $2 $3 $4 $5"
+shift 3
+echo "$1 $2 $3 $4 $5"
+shift 2
+echo "$1 $2 $3 $4 $5"
+shift 1
+# END #
+❯ ./shiftparameters.sh
+Count 7
+Sat Dec 28 05:21:52 AM
+Dec 28 05:21:52 AM IST
+28 05:21:52 AM IST 2024
+IST 2024   
+
+```
+## Functions
+
+- What is a function
+```bash
+❯ cat 1function.sh
+#!/bin/bash
+#Purpose : Function example. Taking Backup of Particular file
+#Version:1.0
+#Created Date: Sat Dec 28 05:23:15 AM IST 2024
+#Modified Date:
+#Author: Harsha
+# Start #
+
+function takebackup (){
+    if [ -f $1 ]; then
+    BACKUP="/opt/$(basename ${1}).$(date +%F).$$"
+    echo "Backing up $1 to ${BACKUP}"
+    cp $1 $BACKUP
+    fi
+}
+
+takebackup ~/Desktop/temp.html
+    if [ $? -eq 0 ]; then 
+    echo "Backup Success"
+    fi
+# END #
+❯ ./1function.sh
+Backing up /home/harsha/Desktop/temp.html to /opt/temp.html.2024-12-28.5704
+cp: cannot create regular file '/opt/temp.html.2024-12-28.5704': Permission denied
+
+```
+
+
+
+
+## Until Loop 
+- runs until the condition is true
+- 
+```bash
+❯ cat untilstatement.sh
+#!/bin/bash
+#Purpose : Until Loop Example for host ping 
+#Version:1.0
+#Created Date: Sat Dec 28 05:29:32 AM IST 2024
+#Modified Date:
+#Author: Harsha
+# Start #
+echo -e "Please enter the IP address to Ping: \c"
+read -r ip 
+until ping -c 3 $ip 
+do 
+    echo "Host $ip is Still Down"
+    sleep 1
+done 
+echo "Host $ip is Up Now"
+# END #
+❯ ./untilstatement.sh
+Please enter the IP address to Ping: google.com
+PING google.com (2404:6800:4007:819::200e) 56 data bytes
+64 bytes from maa05s18-in-x0e.1e100.net (2404:6800:4007:819::200e): icmp_seq=1 ttl=115 time=6.95 ms
+64 bytes from maa05s18-in-x0e.1e100.net (2404:6800:4007:819::200e): icmp_seq=2 ttl=115 time=10.5 ms
+64 bytes from maa05s18-in-x0e.1e100.net (2404:6800:4007:819::200e): icmp_seq=3 ttl=115 time=9.29 ms
+
+--- google.com ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2004ms
+rtt min/avg/max/mdev = 6.948/8.926/10.539/1.488 ms
+Host google.com is Up Now
+
+```
+## Arrays
+
+- supported in korn and bash shell 
+- one dimensional 
+```bash
+❯ cat arrayex.sh
+#!/bin/bash
+#Purpose : Array example
+#Version:1.0
+#Created Date: Sat Dec 28 05:34:21 AM IST 2024
+#Modified Date:
+#Author: Harsha
+# Start #
+Month=(0 1 2 3 4 5)
+echo ${Month[2]}
+echo ${Month[@]}
+echo ${#Month[@]}
+# END #
+❯ ./arrayex.sh
+2
+0 1 2 3 4 5
+6
+
+```
+
+```bash
+❯ cat arrays2.sh
+#!/bin/bash
+#Purpose : Array example
+#Version:1.0
+#Created Date: Sat Dec 28 05:36:47 AM IST 2024
+#Modified Date:
+#Author: Harsha
+# Start #
+fruits=( "Apple" "Orange" "Banana" "Sapota" )
+fruits[3]="Green Apple"
+for fruit in ${fruits[@]}
+do echo "Fruit Name is $fruit"
+done 
+echo "Number of Fruits in the basket is " ${#fruits}
+echo "All Fruits ${fruits[@]}"
+# END #
+❯ ./arrays2.sh
+Fruit Name is Apple
+Fruit Name is Orange
+Fruit Name is Banana
+Fruit Name is Green
+Fruit Name is Apple
+Number of Fruits in the basket is  5
+All Fruits Apple Orange Banana Green Apple
+
+```
+## Getopts
+
+What is getops 
+```bash
+❯ cat getops.sh
+#!/bin/bash
+#Purpose : Getopts examples working with arguments
+#Version:1.0
+#Created Date: Sat Dec 28 05:42:00 AM IST 2024
+#Modified Date:
+#Author: Harsha
+# Start #
+
+while getopts :a:b: options; do 
+    case $options in 
+        a) ap=$OPTARG;;
+        b) bo=$OPTARG;;
+        ?) echo "I dont know what is $OPTARG is "
+    esac
+done 
+echo "Option A = $ap and Option B = $bo"
+# END #
+❯ ./getops.sh -a apple -b boy -d 213
+I dont know what is d is 
+Option A = apple and Option B = boy
+
+```
+
+## Writing CPU Usage Alerts Scripts
+
+```bash
+#!/bin/bash
+#Purpose: Monitor CPU utilization and send alerts based on thresholds
+#Version: 1.0
+#Created Date: Sat Dec 28 05:46:45 AM IST 2024
+#Modified Date: 
+#Author: Harsha
+# Start #
+
+# Set paths and configurations
+HOSTNAME=$(hostname)                   # Get the hostname of the system
+CRITICAL=98                            # Critical CPU usage threshold
+WARNING=90                             # Warning CPU usage threshold
+CRITICALMail="mail@yahoo.com"          # Email for critical alerts
+MAILWAR="Youremail@domain.in"          # Email for warning alerts
+LOGDIR="/var/log/cputilhist"           # Directory for log files
+LOGFILE="$LOGDIR/cpusage-$(date +%h%d%y).log"  # Log file path with a timestamp
+
+# Create the log directory if it doesn't exist
+mkdir -p "$LOGDIR"
+
+# Create the log file if it doesn't exist
+touch "$LOGFILE"
+
+# Monitor CPU utilization
+while true; do
+    # Fetch CPU load using the `top` command
+    CPULOAD=$(top -b -n 1 | grep "Cpu(s)" | awk '{print $2}' | awk -F. '{print $1}')
+
+    # Validate CPU load thresholds and send alerts
+    if [ -n "$WARNING" ] && [ -n "$CRITICAL" ]; then
+        if [ "$CPULOAD" -ge "$WARNING" ] && [ "$CPULOAD" -lt "$CRITICAL" ]; then
+            # Log warning message
+            echo "$(date "+%F %H:%M:%S") WARNING - CPU Load: $CPULOAD% on Host: $HOSTNAME" >> "$LOGFILE"
+            
+            # Send warning email
+            echo "Warning: CPU Load $CPULOAD% on Host $HOSTNAME" | mail -s "CPU Load Warning" "$MAILWAR"
+        elif [ "$CPULOAD" -ge "$CRITICAL" ]; then
+            # Log critical message
+            echo "$(date "+%F %H:%M:%S") CRITICAL - CPU Load: $CPULOAD% on Host: $HOSTNAME" >> "$LOGFILE"
+            
+            # Send critical email
+            echo "Critical: CPU Load $CPULOAD% on Host $HOSTNAME" | mail -s "CPU Load Critical" "$CRITICALMail"
+        fi
+    fi
+
+    # Wait for 60 seconds before the next check
+    sleep 60
+done
+
+# END #
+
+```
+## Cron jobs
+
+Basics here
+## Disk space usage monitoring Script
+
+```bash
+#!/bin/bash
+#Purpose: Monitoring disk space utilization and sending email alerts
+#Version: 1.0
+#Created Date: Sat Dec 28 06:10:20 AM IST 2024
+#Modified Date: 
+#Author: Harsha
+# Start #
+
+THRESHOLD=40                            # Disk usage threshold percentage
+mailTo="root"                           # Recipient email address
+HOSTNAME=$(hostname)                    # System hostname
+TEMPFILE="/tmp/disk_usage_alert.txt"    # Temporary file to store alert details
+
+# Clean the temporary file if it exists
+rm -f $TEMPFILE
+
+# Check each disk's usage
+for usage in $(/bin/df -h | grep -vE 'Filesystem|tmpfs' | awk '{print $5}' | sed 's/%//g'); do
+    if [ "$usage" -ge "$THRESHOLD" ]; then
+        /bin/df -h | grep "$usage%" >> $TEMPFILE
+    fi
+done
+
+# Send email alert if any usage exceeds the threshold
+if [ -s $TEMPFILE ]; then
+    mail -s "$HOSTNAME Disk Usage Alert: Critical" $mailTo < $TEMPFILE
+    echo "Disk usage alert sent to $mailTo"
+else
+    echo "No disk usage exceeds the threshold of $THRESHOLD%"
+fi
+
+# Clean up the temporary file
+rm -f $TEMPFILE
+
+# END #
+
+```
+
+
+## Troubleshooting (Debugging) shell scripts
+
+- add `-x before` executing
+- else add `#!/bin/bash -x`  in the top of the file
+- ascii characters from your copied script might be different so it might give errors
+- correct it using `dos2unix filename.sh`
+- shellcheck.net for debugging the shell script 
+
+
+
+## Here Documents 
+here documents are used to ......
+```bash
+#!/bin/bash
+#Purpose : Here document
+#Version:1.0
+#Created Date: Sat Dec 28 06:30:12 AM IST 2024
+#Modified Date:
+#Author: Harsha
+# Start #
+cat << 'LINESOFTEXT'
+This is the first line of the document
+second line 
+some text
+LINESOFTEXT
+# END #
+```
+
+
+## Internal Field Separator - IFS
+used to separate the fields
+
+```bash
+
+❯ cat ifs.sh
+#!/bin/bash
+#Purpose : Internal field seperator
+#Version:1.0
+#Created Date: Sat Dec 28 06:34:03 AM IST 2024
+#Modified Date:
+#Author: Harsha
+# Start #
+LINE=`cat /etc/passwd | grep $1`
+IFS=:
+set $LINE
+echo "User Name = $1"
+echo "Password = $2"
+echo "UID = $3"
+echo "GID = $4"
+echo "Description = $5"
+echo "Home Directory = $6"
+echo "Current Shell = $7"
+
+# END #
+❯ ./ifs.sh harsha
+User Name = harsha
+Password = x
+UID = 1000
+GID = 1000
+Description = Harsha,,,
+Home Directory = /home/harsha
+Current Shell = /usr/bin/zsh
+
+```
+
+## Eval Command
+What is eval command?
+
+
+```bash
+❯ cat evalcmd.sh
+#!/bin/bash
+#Purpose : eval command Evaluating twice
+#Version:1.0
+#Created Date: Sat Dec 28 06:39:04 AM IST 2024
+#Modified Date:
+#Author: Harsha
+# Start #
+COMMAND="ls -ltr /etc"
+echo "$COMMAND"
+eval $COMMAND
+
+# END #
+❯ ./evalcmd.sh
+ls -ltr /etc
+total 1360
+-rw-r--r--  1 root   root    3663 Jun 20  2016 screenrc
+-rw-r--r--  1 root   root      45 Jan 25  2020 bash_completion
+-rw-r--r--  1 root   root   12813 Mar 28  2021 services
+-rw-r--r--  1 root   root     449 Dec 11  2021 mailcap.order
+-rw-r--r--  1 root   root     119 Jan 11  2022 catdocrc
+
+```
+## Running multiple scripts under a single script 
+
+```bash
+❯ cat multiplescripts.sh
+#!/bin/bash
+#Purpose : executing multiple scripts from single script
+#Version:1.0
+#Created Date: Sat Dec 28 06:46:38 AM IST 2024
+#Modified Date:
+#Author: Harsha
+# Start #
+echo "First Script Output"
+echo "Calling the second script"
+sh ~/scripts/secondfile.sh
+
+# END #
+❯ cat secondfile.sh
+#!/bin/bash
+#Purpose :
+#Version:1.0
+#Created Date: Sat Dec 28 06:48:16 AM IST 2024
+#Modified Date:
+#Author: Harsha
+# Start #
+echo "Hello from the second file !!"
+# END #
+❯ ./multiplescripts.sh
+First Script Output
+Calling the second script
+Hello from the second file !!
+
+
+```
+
+## Logger Command
